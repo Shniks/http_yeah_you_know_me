@@ -38,8 +38,8 @@ loop do
   # Message based on path
   message = "Hello from the Server side!" if path == "/"
   message = "#{path[1..-1]}! creating a #{path[1..-2]}!" if path.split("/").count == 2
-  message = "#{path[1..-1]}! updating a #{path.split("/")[1][0..-2]}!" if path.split("/").count == 3
-  # message = "dogs! updating a dog!" if path == "/dogs/"
+  message = "#{path[1..-1]}! updating a #{path.split("/")[1][0..-2]}!" if path.split("/").count == 3 && verb == "patch"
+  message = "#{path[1..-1]}! destroying a #{path.split("/")[1][0..-2]}!" if path.split("/").count == 3 && verb == "delete"
 
   # Output based on verb
   output = "<html>#{message} #{verb}</html>" if path == "/"
