@@ -16,6 +16,8 @@ class GuessingGameTest < Minitest::Test
   end
 
   def test_it_guess_with_form_data
+    skip
+
     # Stuck on this one? Look at the "Reading the Request Body" section of the README
 
     url = 'http://localhost:9292/game'
@@ -25,6 +27,7 @@ class GuessingGameTest < Minitest::Test
   end
 
   def test_it_can_change_the_answer_with_a_post_request
+    skip
     url = 'http://localhost:9292/game/answer'
     Faraday.post(url, answer: 50)
 
@@ -34,6 +37,7 @@ class GuessingGameTest < Minitest::Test
   end
 
   def test_it_can_cheat
+    skip
     url = 'http://localhost:9292/game/answer'
     Faraday.post(url, answer: 50)
     response = Faraday.get 'http://localhost:9292/game/answer'
@@ -45,6 +49,7 @@ class GuessingGameTest < Minitest::Test
   end
 
   def test_it_can_start_a_new_game
+    skip
     response = Faraday.delete 'http://localhost:9292/game'
     assert response.body.include? "A new answer has been generated"
   end
