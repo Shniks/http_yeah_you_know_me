@@ -23,18 +23,32 @@ loop do
   # Print out the Request
   puts request_lines
 
-  #verb
+  # Verb
   verb = request_lines[0].split[0].downcase
 
+  # Path
+  path = request_lines[0].split(" ")[1]
+  # binding.pry
   # Status for various verbs
   status = "http/1.1 200 ok" if verb == "get"
   status = "http/1.1 202 ok" if verb == "post"
   status = "http/1.1 405 ok" if verb == "patch"
   status = "http/1.1 401 ok" if verb == "delete"
 
+  # Message based on path
+  message = "Hello from the Server side!" if path == "/"
+  message = "#{path[1..-1]}! creating a #{path[1..-2]}!" if path.split("/").count == 2
+  message = "#{path[1..-1]}! updating a #{path.split("/")[1][0..-2]}!" if path.split("/").count == 3
+  # message = "dogs! updating a dog!" if path == "/dogs/"
+
+  # Output based on verb
+  output = "<html>#{message} #{verb}</html>" if path == "/"
+  output = "<html>#{message}</html>" if path.split("/").count >= 2
+
+
   # Generate the Response
   puts "Sending response."
-  output = "<html>Hello from the Server side! #{verb}</html>"
+  # output = "<html>#{message} #{verb}</html>"
   response = status + "\r\n" + "\r\n" + output
 
   # Send the Response

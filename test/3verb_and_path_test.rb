@@ -33,6 +33,7 @@ class VerbsAndPathsTest < Minitest::Test
   end
 
   def test_it_can_delete_to_different_paths
+    skip
     response = Faraday.delete 'http://localhost:9292'
     assert response.body.include? 'delete'
 
