@@ -16,8 +16,6 @@ class GuessingGameTest < Minitest::Test
   end
 
   def test_it_guess_with_form_data
-    skip
-
     # Stuck on this one? Look at the "Reading the Request Body" section of the README
 
     url = 'http://localhost:9292/game'

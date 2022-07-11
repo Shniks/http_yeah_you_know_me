@@ -7,6 +7,9 @@ class TCPServer
   # Create a new instance of TCPServer on Port 9292
   server = TCPServer.new(9292)
 
+  # Generate random number
+  random = rand(1..100)
+
   loop do
     # Wait for a Request
     # When a request comes in, save the connection to a variable
@@ -21,18 +24,18 @@ class TCPServer
       request_lines << line
       line = connection.gets.chomp
     end
-
     # Print out the Request
     puts request_lines
+
+    # Get body of request
+    request_body = connection.read(1)
+    binding.pry
 
     # Verb
     verb = request_lines[0].split[0].downcase
 
     # Path
     path = request_lines[0].split(" ")[1]
-
-    # Generate random number
-    random = rand(1..100)
 
     # Parse the guess
     guess = path.split("=").last.to_i
