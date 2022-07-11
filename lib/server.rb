@@ -24,7 +24,7 @@ class TCPServer
       request_lines << line
       line = connection.gets.chomp
     end
-    
+
     # Print out the Request
     puts request_lines
 
@@ -33,8 +33,11 @@ class TCPServer
       line.include?("Content-Length")
     end
 
+    # Path
+    path = request_lines[0].split(" ")[1]
+
     # Get the guess from the body using content_length
-    if !content_length.nil?
+    if !content_length.nil? && !path.include?("answer")
       guess_length = content_length.split(" ")[1].to_i
       read_content = connection.read(guess_length)
       form_guess = read_content.split("=")[1].to_i
@@ -42,9 +45,6 @@ class TCPServer
 
     # Verb
     verb = request_lines[0].split[0].downcase
-
-    # Path
-    path = request_lines[0].split(" ")[1]
 
     # Parse the guess
     guess = path.split("=").last.to_i if content_length.nil?
@@ -60,7 +60,6 @@ class TCPServer
     status = "http/1.1 202 ok" if verb == "post"
     status = "http/1.1 405 ok" if verb == "patch"
     status = "http/1.1 401 ok" if verb == "delete"
-
     # Message based on path
     message = "Hello from the Server side!" if path == "/"
     message = "#{path[1..-1]}! creating a #{path[1..-2]}!" if path.split("/").count == 2
@@ -68,7 +67,7 @@ class TCPServer
     message = "#{path[1..-1]}! destroying a #{path.split("/")[1][0..-2]}!" if path.split("/").count == 3 && verb == "delete"
     message = "I've generated a random number between 1 and 100. Start guessing!" if path == "/game"
     message = "#{g_message}" if path.include?("guess")
-    message = "#{g_message}" if !content_length.nil?
+    message = "#{g_message}" if !guess_length.nil? && guess_length > 0
 
     # Output based on verb
     output = "<html>#{message} #{verb}</html>" if path == "/"
