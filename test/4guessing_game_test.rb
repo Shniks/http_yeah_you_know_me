@@ -17,7 +17,6 @@ class GuessingGameTest < Minitest::Test
 
   def test_it_guess_with_form_data
     # Stuck on this one? Look at the "Reading the Request Body" section of the README
-
     url = 'http://localhost:9292/game'
     response = Faraday.post(url, guess: 50)
     expected = response.body.include?('too high') || response.body.include?('too low') || response.body.include?('correct!')
